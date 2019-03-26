@@ -6,8 +6,8 @@ export function login(phone, password){
 }
 
 //查询报告列表
-export function getReportList(tel_phone){
-  return postRequest("/report/list", tel_phone);
+export function getReportList(phone){
+  return postRequest("/report/list", phone);
 }
 
 //查询报告详情(studyAccnumber)

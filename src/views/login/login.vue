@@ -31,153 +31,6 @@
     <canvas id="canvas" class="canvas"></canvas>
   </div>
 </template>
-<style lang="scss">
-  @import "../../styles/core/reset.scss";
-  .doctorlogin{
-    width: 100%;
-    height: 100%;
-    @include flexbox;
-    position: relative;
-    .doctor-form{
-      width: 8.02rem;
-      position: absolute;
-      top: 28%;
-      left: 50%;
-      transform: translate(-50%,0);
-      .el-form{
-        h3{
-          font-size: .46rem;
-          color:#fff;
-          text-align: center;
-          font-weight: normal;
-        }
-        .myInput{
-          text-align: center;
-          margin: .75rem auto 0 auto;
-          width: 4rem;
-          height: 1.2rem;
-          background: #fff;
-          border-radius: 4px;
-          overflow: hidden;
-          li{
-            width: 100%;
-            height: .6rem;
-            font-weight:normal;
-            &:first-child{
-              border-bottom:1px solid #EEEEEE;
-              box-sizing: border-box;
-            }
-            input{
-              width: 3.4rem;
-              height: 100%;
-              border:none;
-              outline: none;
-              font-size: .18rem;
-              font-weight:normal;
-            }
-          }
-
-          .el-form-item{
-            margin-bottom: 0px;
-            height: 100%;
-            .el-form-item__content{
-              line-height: .6rem;
-              position: relative;
-              font-size: .14rem;
-              .el-input,.el-input{
-                margin-bottom: 0px;
-                height: 100%;
-                .el-input__inner{
-                  background: #fff;
-                }
-              }
-              .el-form-item__error {
-                color: #ff4949;
-                font-size: 12px;
-                line-height: 60px;
-                position: absolute;
-                top: 0;
-                right: 8px;
-                padding: 0 8px;
-                left: auto;
-              }
-            }
-          }
-        }
-
-
-        .forgot-button{
-          margin-left: 2rem;
-          font-size: .16rem;
-          a{
-            color: #fff;
-          }
-        }
-
-        .registry-button{
-          margin-left: 5.3rem;
-          font-size: .16rem;
-          a{
-            color: #fff;
-          }
-        }
-
-        .login-button{
-          width: 4rem;
-          height: .6rem;
-          background: #fff;
-          text-align: center;
-          line-height: .6rem;
-          margin: .2rem auto;
-          border-radius: .04rem;
-          font-size: .18rem;
-          color: #0A81E5;
-          font-weight: normal;
-          a{
-            color: #467DE5;
-            font-weight: bolder;
-            font-weight:normal;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
-            display: inline-block;
-          }
-        }
-        .go-doctrlogin{
-          text-align: center;
-          padding-top: .2rem;
-          font-size: .18rem;
-          a{
-            color: #fff;
-          }
-        }
-      }
-    }
-    .login-footer{
-      position: absolute;
-      left: 50%;
-      bottom: .3rem;
-      font-size: .14rem;
-      color: rgba(255,255,255,0.5);
-      transform: translate(-50%,0);
-    }
-    .logo{
-      position: absolute;
-      top: .4rem;
-      left: .4rem;
-      img{
-        width: 1.7rem;
-        height: .35rem;
-        display: block;
-      }
-    }
-    .canvas{
-      display: block;
-      background: #0982E5;
-      @include flex;
-    }
-  }
-</style>
 <script>
 
   import {login} from '@/api/index'
@@ -345,15 +198,20 @@
             login(this.ruleForm2.account, this.ruleForm2.checkPass).then(function (res) {
               console.log("code==" ,res.code + "data==" , res.data);
               if(res.code === 20000){
+
+                //将用户信息保存到local
+                console.log("telNo",res.data.telNo)
+                localStorage.setItem("phone", res.data.telNo)
                 //不带参数的跳转
                 self.$router.push('/reportlist');
                 //带参数跳转方式
-                /*this.$router.push({
+                /*self.$router.push({
                   path: '/reportlist',
                   query: {
-                    data:res
+                    phone:res.data.telNo
                   }
                 })*/
+
               }else{
                 this.$message({message: '错了哦，请确认登录名或密码',type: 'error'});
               }
@@ -362,7 +220,158 @@
             return false;
           }
         });
+      },
+      registry(){
+        console.log("准备注册账号");
+
       }
     }//methods结束
   }
 </script>
+<style lang="scss">
+  @import "../../styles/core/reset.scss";
+  .doctorlogin{
+    width: 100%;
+    height: 100%;
+    @include flexbox;
+    position: relative;
+    .doctor-form{
+      width: 8.02rem;
+      position: absolute;
+      top: 28%;
+      left: 50%;
+      transform: translate(-50%,0);
+      .el-form{
+        h3{
+          font-size: .46rem;
+          color:#fff;
+          text-align: center;
+          font-weight: normal;
+        }
+        .myInput{
+          text-align: center;
+          margin: .75rem auto 0 auto;
+          width: 4rem;
+          height: 1.2rem;
+          background: #fff;
+          border-radius: 4px;
+          overflow: hidden;
+          li{
+            width: 100%;
+            height: .6rem;
+            font-weight:normal;
+            &:first-child{
+              border-bottom:1px solid #EEEEEE;
+              box-sizing: border-box;
+            }
+            input{
+              width: 3.4rem;
+              height: 100%;
+              border:none;
+              outline: none;
+              font-size: .18rem;
+              font-weight:normal;
+            }
+          }
+
+          .el-form-item{
+            margin-bottom: 0px;
+            height: 100%;
+            .el-form-item__content{
+              line-height: .6rem;
+              position: relative;
+              font-size: .14rem;
+              .el-input,.el-input{
+                margin-bottom: 0px;
+                height: 100%;
+                .el-input__inner{
+                  background: #fff;
+                }
+              }
+              .el-form-item__error {
+                color: #ff4949;
+                font-size: 12px;
+                line-height: 60px;
+                position: absolute;
+                top: 0;
+                right: 8px;
+                padding: 0 8px;
+                left: auto;
+              }
+            }
+          }
+        }
+
+
+        .forgot-button{
+          margin-left: 2rem;
+          font-size: .16rem;
+          a{
+            color: #fff;
+          }
+        }
+
+        .registry-button{
+          margin-left: 5.3rem;
+          font-size: .16rem;
+          a{
+            color: #fff;
+          }
+        }
+
+        .login-button{
+          width: 4rem;
+          height: .6rem;
+          background: #fff;
+          text-align: center;
+          line-height: .6rem;
+          margin: .2rem auto;
+          border-radius: .04rem;
+          font-size: .18rem;
+          color: #0A81E5;
+          font-weight: normal;
+          a{
+            color: #467DE5;
+            font-weight: bolder;
+            font-weight:normal;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+          }
+        }
+        .go-doctrlogin{
+          text-align: center;
+          padding-top: .2rem;
+          font-size: .18rem;
+          a{
+            color: #fff;
+          }
+        }
+      }
+    }
+    .login-footer{
+      position: absolute;
+      left: 50%;
+      bottom: .3rem;
+      font-size: .14rem;
+      color: rgba(255,255,255,0.5);
+      transform: translate(-50%,0);
+    }
+    .logo{
+      position: absolute;
+      top: .4rem;
+      left: .4rem;
+      img{
+        width: 1.7rem;
+        height: .35rem;
+        display: block;
+      }
+    }
+    .canvas{
+      display: block;
+      background: #0982E5;
+      @include flex;
+    }
+  }
+</style>

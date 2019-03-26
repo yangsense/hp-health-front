@@ -107,7 +107,7 @@ export const postRequest = (url, params) => {
     method: 'post',
     url: 'http://localhost:8001'+`${url}`,
     data: {
-      data: params
+      phone: params
     },
     headers: {
       'Content-Type':'application/json;charset=utf-8'

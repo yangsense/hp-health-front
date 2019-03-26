@@ -1,0 +1,15 @@
+.container {
+  width: 80%;
+  height: 80%;
+  background-color: #fff;
+  margin:0 auto;
+  margin-bottom: 2vh;
+}
+
+.container p{
+  width: auto;
+  height: 80px;
+  line-height: 80px;
+  font-size: 40px;
+  padding-top: 15px;
+}
