@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -9,10 +7,13 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 import Element from 'element-ui';
 
+import md5 from './plugins/md5'
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
 Vue.use(Element, { size: 'small', zIndex: 3000 });
+Vue.use(md5);
 
 /* eslint-disable no-new */
 new Vue({

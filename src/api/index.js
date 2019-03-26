@@ -14,9 +14,6 @@ export function getReportList(tel_phone){
 export const getReportDetail = (studyAccnumber) =>{
   return getRequest("/report/detail/" + studyAccnumber)
 }
-/*var i = 0;
-let y=1;
-const b= 2;*/
 
 //查询用户列表
 export function getUserList(name) {
