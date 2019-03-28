@@ -52,7 +52,7 @@
 
 <script>
 
-  import {getReportList, getReportDetail} from '@/api/index'
+  import {getReportList} from '@/api/index'
 
   export default {
     data() {
@@ -62,9 +62,7 @@
     },
     methods: {
       //接受user信息并获取报告列表,
-      //var phone = this.$route.params.
       getTableData() {
-        //console.log("用户信息为" , this.$route.query.data);
         var phone = localStorage.getItem("phone");
         console.log("用户手机号为 ===" , phone)
         getReportList(phone).then(res => {

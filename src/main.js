@@ -9,6 +9,10 @@ import Element from 'element-ui';
 
 import md5 from './plugins/md5'
 
+import $ from 'jquery'
+
+
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
@@ -16,6 +20,9 @@ Vue.use(Element, { size: 'small', zIndex: 3000 });
 Vue.use(md5);
 
 /* eslint-disable no-new */
+
+Vue.config.productionTip = false
+
 new Vue({
   el: '#app',
   router,

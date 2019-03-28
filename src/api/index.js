@@ -15,7 +15,7 @@ export const getReportDetail = (studyAccnumber) =>{
   return getRequest("/report/detail/" + studyAccnumber)
 }
 
-//查询用户列表
-export function getUserList(name) {
-  return getRequest("/user/list", name);
+//查询报告影像
+export function showReportImage (accnumber) {
+  return getRequest("/report/reportserieslist/" + accnumber)
 }

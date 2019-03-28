@@ -174,7 +174,7 @@ export const deleteRequest = (url,params) => {
 export const getRequest = (url,params) => {
   return axios({
     method: 'get',
-    url: 'http://localhost:8001' +`${url}`,
+    url: baseUrl +`${url}`,
     params: params,
     transformRequest: [function (params) {
       let ret = ''
@@ -188,22 +188,5 @@ export const getRequest = (url,params) => {
     }
   });
 }
-/*export const loginRequest = (url, params) => {
-  return axios({
-    method: 'post',
-    url: baseUrl+`${url}`,
-    data: params,
-    transformRequest: [function (data) {
-      let ret = ''
-      for (let it in data) {
-        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-      }
-      return ret
-    }],
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }
-  });
-}*/
 
 export default axios;

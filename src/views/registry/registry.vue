@@ -1,29 +1,31 @@
 <template>
   <div class="doctorlogin">
     <div class="doctor-form">
-      <el-form  :model="ruleForm2" :rules="rules2" ref="ruleForm2">
-        <h3 class="login-title">欢迎登陆</h3>
+      <el-form  :model="ruleForm" :rules="rules" ref="ruleForm2">
+        <h3 class="login-title">立即注册</h3>
         <ul class="myInput">
           <li class="username">
-            <el-form-item prop="account">
-              <el-input type="text" v-model.number="ruleForm2.account" auto-complete="off" placeholder="登录名" :maxlength="11" style = "height:100%;" @keyup.enter.native="submitForm('ruleForm2')"></el-input>
+            <el-form-item prop="phone">
+              <el-input type="text" v-model.number="ruleForm.phone" auto-complete="off" placeholder="请输入注册手机号" :maxlength="11" style = "height:100%;"></el-input>
             </el-form-item>
           </li>
           <li>
-            <el-form-item prop="checkPass">
-              <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码" :maxlength="16" @keyup.enter.native="submitForm('ruleForm2')"></el-input>
+            <el-form-item prop="code" >
+              <el-input type="text" v-model="ruleForm.code" auto-complete="off" placeholder="请输入验证码" :maxlength="6" style="width: 80%;"></el-input>
             </el-form-item>
+            <!--<el-form-item style="width: 40%;float: right;background-color: #00bec8">
+              <el-button @click="getCode" v-show="show" style="width: 40%;color: red" class="getCode">获取验证码</el-button>
+            </el-form-item>-->
+            <div style="font-size: 18px;float: right;z-index: 10">获取验证码</div>
           </li>
+
         </ul>
 
-        <p class="login-button" @click="submitForm('ruleForm2')"><a>登 录</a></p>
-        <p class="forgot-button" @click="forgot()"><a>忘记密码</a></p>
-        <p class="registry-button" @click="registry()"><a>立即注册</a></p>
+        <p class="login-button" @click="submitForm('ruleForm')"><a>点 击 注 册</a></p>
+        <p class="registry-button"><a href="/login">已经有账号，马上去</a></p>
       </el-form>
     </div>
-    <div class="login-footer">
 
-    </div>
     <!---->
     <!--<div class="logo">
             <img src="../assets/03.png" alt="图片" />
@@ -57,11 +59,11 @@
       };
       return {
         loginRouter:'',
-        ruleForm2: {
-          account: '',
-          checkPass: ''
+        ruleForm: {
+          phone: '',
+          code: ''
         },
-        rules2: {
+        rules: {
           account: [{
             validator: checkAccount,
             trigger: 'blur'
@@ -183,19 +185,19 @@
       /* 登录背景画布结束 */
     },
     methods: {
-      submitForm(ruleForm2) {
+      submitForm(ruleForm) {
         //在外部定义一个值指代Vue实例 用来解决 Cannot read property '$router' of undefined
         //参考文档 https://segmentfault.com/q/1010000009919004/a-1020000009920694
         var self = this;
 
-        this.$refs[ruleForm2].validate((valid) => {
+        this.$refs[ruleForm].validate((valid) => {
           if (valid) {
             //md5加密
-            console.log(this.ruleForm2.checkPass)
-            this.ruleForm2.checkPass = this.$md5(this.ruleForm2.checkPass)
-            console.log(this.ruleForm2.checkPass)
+            console.log(this.ruleForm.checkPass)
+            this.ruleForm.checkPass = this.$md5(this.ruleForm.checkPass)
+            console.log(this.ruleForm.checkPass)
 
-            login(this.ruleForm2.account, this.ruleForm2.checkPass).then(function (res) {
+            login(this.ruleForm.account, this.ruleForm.checkPass).then(function (res) {
               console.log("code==" ,res.code + "data==" , res.data);
               if(res.code === 20000){
 
@@ -312,7 +314,7 @@
         }
 
         .registry-button{
-          margin-left: 5.3rem;
+          margin-left: 4.5rem;
           font-size: .16rem;
           a{
             color: #fff;
