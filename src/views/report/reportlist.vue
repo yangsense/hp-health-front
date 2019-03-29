@@ -7,8 +7,10 @@
     <el-table
       :data="tableData"
       border
+      v-loading="loading"
       style="width: 100%;margin-top: 10px;">
       <el-table-column
+        fixed="left"
         prop="reportDatetime"
         label="报告日期"
         width="180">
@@ -22,7 +24,7 @@
       <el-table-column
         prop="patientName"
         label="姓名"
-        width="100">
+        width="150">
       </el-table-column>
       <el-table-column
         prop="studyAccnumber"
@@ -35,6 +37,7 @@
         width="180">
       </el-table-column>
       <el-table-column
+        width="150"
         prop="orgName"
         label="医院名称">
       </el-table-column>

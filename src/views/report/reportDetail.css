@@ -1,9 +1,12 @@
-*.el-card {
-  margin:0 auto;
-  padding: 0;
+*.box-card {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
 }
 .text {
   font-size: 14px;
+  color: #606266;
 }
 
 .item {
@@ -13,6 +16,7 @@
 .clearfix{
   width: 100%;
   height: 60px;
+  line-height: 0 !important;
 }
 
 .box-card {
@@ -20,7 +24,8 @@
 }
 .box-card span{
   font-size: 20px;
-  padding: 3px 0
+  padding: 3px 0;
+  color:#606266;
 }
 
 .reportDetail{
@@ -31,6 +36,19 @@
   height: 40px;
 
 }
-.reportDetail p{
+
+.showReportImage{
+  float: right;
+  margin-top: 30px;
+}
+
+.message{
+  width: 1000px;height: auto;word-wrap: break-word; font-size: 15px
+}
+
+.returnlast{
+  font-size: 13px;color: #999
+}
+.returnlast:hover{
 
 }

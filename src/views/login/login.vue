@@ -309,13 +309,21 @@
           a{
             color: #fff;
           }
+          a:hover{
+            color: #ccc;
+          }
         }
 
         .registry-button{
+          line-height: 0 !important;
+          margin-top: -10px;
           margin-left: 5.3rem;
           font-size: .16rem;
           a{
             color: #fff;
+          }
+          a:hover{
+            color: #ccc;
           }
         }
 

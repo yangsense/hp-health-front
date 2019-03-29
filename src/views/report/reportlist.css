@@ -10,6 +10,11 @@
   width: auto;
   height: 80px;
   line-height: 80px;
-  font-size: 40px;
+  font-size: 30px;
   padding-top: 15px;
+  color: #606266;
+}
+
+.el-table td, .el-table th{
+  text-align: center;
 }

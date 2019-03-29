@@ -15,10 +15,6 @@ export default new Router({
       name: 'login',
       component: login
     },{
-      path: '/login',
-      name: 'login',
-      component: login
-    },{
       path: '/registry',
       name: 'registry',
       component: registry

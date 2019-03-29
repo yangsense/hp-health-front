@@ -18,8 +18,9 @@ export default {
     width: 100%;
     height: 100%;
     font-size: 100px !important;
-    line-height: 0 !important;
+    /*line-height: 0 !important;*/  /*影响div内文字换行*/
     font-family: "PingFangSC-Regular, sans-serif";
+    background-color: #fff;
   }
   #app{
     width: 100%;
