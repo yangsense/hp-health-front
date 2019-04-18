@@ -55,7 +55,7 @@
 
 <script>
 
-  import {getReportList} from '@/api/index'
+  import {getReportList, getOperatorByToken} from '@/api/index'
 
   export default {
     data() {
@@ -64,10 +64,18 @@
       }
     },
     methods: {
+      //根据token查询用户信息
+      getOperator(){
+        var token = localStorage.getItem("token");
+        console.log("token ===" , token)
+        getOperatorByToken(token).then(res => {
+          this.tableData = res.data;
+        })
+      },
       //接受user信息并获取报告列表,
       getTableData() {
         var phone = localStorage.getItem("phone");
-        console.log("用户手机号为 ===" , phone)
+        console.log("phone ===" , phone)
         getReportList(phone).then(res => {
           this.tableData = res.data;
         })
@@ -83,6 +91,7 @@
       },
       init() {
         this.getTableData()
+        //this.getOperator();
       }
     },
 

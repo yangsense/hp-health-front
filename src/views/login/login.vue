@@ -1,7 +1,7 @@
 <template>
   <div class="doctorlogin">
     <div class="doctor-form">
-      <el-form  :model="ruleForm2" :rules="rules2" ref="ruleForm2">
+      <!--<el-form  :model="ruleForm2" :rules="rules2" ref="ruleForm2">
         <h3 class="login-title">欢迎登陆</h3>
         <ul class="myInput">
           <li class="username">
@@ -19,6 +19,25 @@
         <p class="login-button" @click="submitForm('ruleForm2')"><a>登 录</a></p>
         <p class="forgot-button" @click="forgot()"><a>忘记密码</a></p>
         <p class="registry-button" @click="registry()"><a>立即注册</a></p>
+      </el-form>-->
+      <el-form  :model="ruleForm2" :rules="rules2" ref="ruleForm2">
+        <h3 class="login-title">欢迎登陆</h3>
+        <ul class="myInput">
+          <li class="username">
+            <el-form-item prop="account">
+              <el-input type="text" v-model.number="ruleForm2.account" auto-complete="off" placeholder="登录名" :maxlength="11" style = "height:100%;" @keyup.enter.native="submitForm('ruleForm2')"></el-input>
+            </el-form-item>
+          </li>
+          <li>
+            <el-form-item prop="checkPass">
+              <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码" :maxlength="16" @keyup.enter.native="submitForm('ruleForm2')"></el-input>
+            </el-form-item>
+          </li>
+        </ul>
+
+        <p class="login-button" @click="submitForm('ruleForm2')"><a>登 录</a></p>
+        <p class="forgot-button" @click="forgot()"><a>忘记密码</a></p>
+        <p class="registry-button" @click="registry()"><a>短信登录</a></p>
       </el-form>
     </div>
     <div class="login-footer">
@@ -198,20 +217,13 @@
             login(this.ruleForm2.account, this.ruleForm2.checkPass).then(function (res) {
               console.log("code==" ,res.code + "data==" , res.data);
               if(res.code === 20000){
-
                 //将用户信息保存到local
                 console.log("telNo",res.data.telNo)
                 localStorage.setItem("phone", res.data.telNo)
+                //将token放入 localStorage
+                //localStorage.setItem("token", res.data);
                 //不带参数的跳转
                 self.$router.push('/reportlist');
-                //带参数跳转方式
-                /*self.$router.push({
-                  path: '/reportlist',
-                  query: {
-                    phone:res.data.telNo
-                  }
-                })*/
-
               }else{
                 this.$message({message: '错了哦，请确认登录名或密码',type: 'error'});
               }

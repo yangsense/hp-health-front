@@ -2,27 +2,30 @@
   <div class="doctorlogin">
     <div class="doctor-form">
       <el-form  :model="ruleForm" :rules="rules" ref="ruleForm2">
-        <h3 class="login-title">立即注册</h3>
+        <h3 class="login-title">短信登录</h3>
         <ul class="myInput">
-          <li class="username">
-            <el-form-item prop="phone">
-              <el-input type="text" v-model.number="ruleForm.phone" auto-complete="off" placeholder="请输入注册手机号" :maxlength="11" style = "height:100%;"></el-input>
+          <li>
+            <el-form-item prop="phone"  class = "login_message">
+              <el-input type="text" v-model.number="ruleForm.phone" auto-complete="off" placeholder="请输入注册手机号" :maxlength="11" style = "height:100%;">
+              </el-input>
+              <button :disabled="!rightPhone" class="get_verification"
+                      :class="{right_phone : rightPhone}" @click.prevent="getCode">
+                {{computeTime>0 ? `已发送(${computeTime}s)` : '获取验证码'}}
+              </button>
             </el-form-item>
           </li>
           <li>
             <el-form-item prop="code" >
               <el-input type="text" v-model="ruleForm.code" auto-complete="off" placeholder="请输入验证码" :maxlength="6" style="width: 80%;"></el-input>
             </el-form-item>
-            <!--<el-form-item style="width: 40%;float: right;background-color: #00bec8">
-              <el-button @click="getCode" v-show="show" style="width: 40%;color: red" class="getCode">获取验证码</el-button>
-            </el-form-item>-->
-            <div style="font-size: 18px;float: right;z-index: 10">获取验证码</div>
           </li>
-
         </ul>
-
-        <p class="login-button" @click="submitForm('ruleForm')"><a>点 击 注 册</a></p>
-        <p class="registry-button"><a href="/login">已经有账号，马上去</a></p>
+        <p class="login-button" @click="registry('ruleForm')"><a>点 击 登 录</a></p>
+        <p class="redirect"><a href="/login">已经有账号，马上去</a></p>
+        <p class="message_registry" style="font-size: .2rem;color: darkgrey;margin-top: 0.1rem;width: 4rem;margin-left: 2rem">
+          温馨提示：未注册帐号的手机号，登录时将自动注册，且代表已同意
+          <a href="javascript:;">《用户服务协议》</a>
+        </p>
       </el-form>
     </div>
 
@@ -35,7 +38,7 @@
 </template>
 <script>
 
-  import {login} from '@/api/index'
+  import {login, reqSendCode, loginByCode} from '@/api/index'
 
   export default {
     data() {
@@ -58,6 +61,7 @@
         }, 1000);
       };
       return {
+        computeTime: 0, //计时时间
         loginRouter:'',
         ruleForm: {
           phone: '',
@@ -76,6 +80,12 @@
         }
       };//return结束
     },//data结束
+    computed:{
+      rightPhone () {
+        return /^1\d{10}$/.test(this.ruleForm.phone)
+      }
+    },
+
     created(){
       /* 登录背景画布开始 */
       setTimeout(function(){
@@ -185,6 +195,37 @@
       /* 登录背景画布结束 */
     },
     methods: {
+      //获取验证码
+      getCode(){
+        console.log("获取验证码")
+        if(!this.computeTime) {
+          // 启动倒计时
+          this.computeTime = 30
+          this.intervalId = setInterval(() => {
+            this.computeTime--
+            if(this.computeTime<=0) {
+              // 停止计时
+              clearInterval(this.intervalId)
+            }
+          }, 1000)
+
+          // 发送ajax请求(向指定手机号发送验证码短信)
+          console.log("打印输入用户手机号", this.ruleForm.phone);
+          const result = reqSendCode(this.ruleForm.phone)
+          if(result.code===1) {
+            // 显示提示
+            this.showAlert(result.msg)
+            // 停止计时
+            if(this.computeTime) {
+              this.computeTime = 0
+              clearInterval(this.intervalId)
+              this.intervalId = undefined
+            }
+          }
+        }
+      },
+
+
       submitForm(ruleForm) {
         //在外部定义一个值指代Vue实例 用来解决 Cannot read property '$router' of undefined
         //参考文档 https://segmentfault.com/q/1010000009919004/a-1020000009920694
@@ -224,14 +265,25 @@
         });
       },
       registry(){
-        console.log("准备注册账号");
-        this.$router.push("/registry")
+        var _this = this;
+        //将用户信息保存到local
+        localStorage.setItem("phone", this.ruleForm.phone)
+        loginByCode(this.ruleForm.phone, this.ruleForm.code).then(function (res) {
+          console.log("code==" ,res.code + "data==" , res.data);
+          if(res.code === 20000){
+            //不带参数的跳转
+            _this.$router.push('/reportlist');
+          }else{
+            this.$message({message: res.data, type: 'error'});
+          }
+        })
       }
     }//methods结束
   }
 </script>
 <style lang="scss">
   @import "../../styles/core/reset.scss";
+  @import "registry.css";
   .doctorlogin{
     width: 100%;
     height: 100%;
@@ -313,7 +365,7 @@
           }
         }
 
-        .registry-button{
+        .redirect{
           margin-left: 4.5rem;
           font-size: .16rem;
           a{

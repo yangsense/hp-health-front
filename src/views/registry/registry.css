@@ -34,3 +34,21 @@
 .getCode{
   color: red;
 }
+
+.login_message{
+  position:relative;
+}
+.get_verification{
+  position:absolute;
+  top:50%;
+  right:10px;
+  transform:translateY(-50%);
+  border: 0;
+  color:#ccc;
+  font-size:14px;
+  background:transparent;
+}
+.right_phone{
+  color:black;
+}
+

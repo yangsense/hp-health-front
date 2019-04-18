@@ -10,10 +10,17 @@ axios.create({
 
 // request拦截器
 axios.interceptors.request.use(config => {
-  /*if (store.getters.token) {
-    config.headers['Authorization'] = "bearer "+getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
-  }*/
-  return config
+  //const token = localStorage.getItem("token")
+  const token = "token0123";
+  console.log(token)
+  if(token){
+    console.log("已获取到token")
+    config.headers['Authorization'] = "bearer "+token // 让每个请求携带自定义token 请根据实际情况自行修改
+  }else{
+    console.log("未获取到token")
+  }
+  console.log("进入axios拦截器========" , config)
+  return config;
 }, error => {
   // Do something with request error
   console.log(error) // for debug
@@ -29,7 +36,6 @@ axios.interceptors.response.use((response) => {
      * 以下代码均为样例，请结合自生需求加以修改，若不需要，则可删除
      */
     const res = response.data
-    console.log("返回对象 " , res.data)
     if (res.code !== 20000) {
       //Message.error(res.message);
       // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
@@ -98,10 +104,22 @@ axios.interceptors.response.use((response) => {
     return Promise.reject(error)
   }
 )
-
 let baseUrl = 'http://localhost:8001'
+
 //http://localhost:8001/user/list   user/list
 export const postRequest = (url, params) => {
+  console.log("post参数为:===" + params);
+  return axios({
+    method: 'post',
+    url: 'http://localhost:8001'+`${url}`,
+    data: params,
+    headers: {
+      'Content-Type':'application/json;charset=utf-8'
+    }
+  });
+}
+
+export const reportListRequest = (url, params) => {
   console.log("post参数为:===" + params);
   return axios({
     method: 'post',
@@ -114,6 +132,7 @@ export const postRequest = (url, params) => {
     }
   });
 }
+
 
 const phone=""
 const password =""
